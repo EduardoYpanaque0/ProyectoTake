@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href='{% static "css/bootstrap.min.css" %}'>
+    <title>Document</title>
+</head>
+
+<body>
+
+    {% csrf_token %}
+    <div class="container-fluid px-2 m-0">
+        <nav class="navbar navbar-light fixed-top" style="background-color: #FFA500; color: black;">
+            <div class="container-fluid text-center">
+                <button class="navbar-toggler" type="button" onclick="redirigir()">
+                    <div class="d-flex">
+                        <h3 class="ms-2 mb-0">&lt;</h3>
+                    </div>
+                </button>
+                <h1 class=" mb-0 text-center mx-auto">{{categoria}}</h1>
+            </div>
+        </nav>
+
+        <br><br><br>
+        <div class="row row-cols-1 row-cols-md-2 gx-md-4 gy-4 justify-content-evenly">
+            {% for producto in productos %}
+            <div class="col">
+                <div class="card" style="border-radius: 8px; box-shadow: 6px 6px 6px #888888;" id="{{ producto.nombre_producto }}">
+                    <div class="card-body">
+                        <h6 class="card-title" style="color:#FFA500;">{{producto.nombre_producto}}</h6>
+                        <h4 class="card-text">{{producto.precio}}</h4>
+                    </div>
+                </div>
+                <form id="form-{{ producto.nombre_producto }}" action="/FormItemsMenus/" method="POST" style="display: none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="idCard" value="{{ producto.nombre_producto }}">
+                </form>
+            </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+    <script>
+        function redirigir() {
+            window.location.href = "/Menus"; // Reemplaza "/ruta-en-tu-proyecto" con la ruta relativa deseada
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll(".card");
+    
+            cards.forEach(function(card) {
+                card.addEventListener("click", function() {
+                    const formId = "form-" + card.id;
+                    const form = document.getElementById(formId);
+                    form.submit();
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

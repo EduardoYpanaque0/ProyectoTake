@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href='{% static "css/bootstrap.min.css" %}'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Document</title>
+    <style>
+        .adicionales-list {
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% csrf_token %}
+    <div class="container-fluid px-2 m-0">
+        <nav class="navbar navbar-light fixed-top" style="background-color: #FFA500; color: black;">
+            <div class="container-fluid text-center">
+                <button class="navbar-toggler" type="button" onclick="redirigir()">
+                    <div class="d-flex">
+                        <h3 class="ms-2 mb-0">&lt;</h3>
+                    </div>
+                </button>
+                <h1 class=" mb-0 text-center mx-auto">CARRITO</h1>
+                <button id="Tacho" class="navbar-toggler" type="button" onclick="aparecerTachito(); return false;">
+                    <div class="d-flex">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </button>
+            </div>
+        </nav>
+
+        <br><br><br>
+        <div class="row row-cols-1 row-cols-md-2 gx-md-4 gy-4 justify-content-evenly">
+            {% if itemscarrito != "sinElementos" %}
+                {% for item in itemscarrito %}
+                <div class="col">
+                    <div class="card pequeña" style="border-radius: 8px; box-shadow: 6px 6px 6px #888888; display: block;" id="{{ item.id }}">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color:#FFA500;">{{item.producto}}</h4>
+                            <h4 class="card-text precio">{{item.precio}}</h4>
+                            <button id="Tachito-{{item.id}}" class="navbar-toggler tachitos" style="position: absolute; top: 25%; right: 0; display: none;" type="button" onclick="eliminarCarrito(event)">
+                                <div class="d-flex">
+                                    <i id="icon-{{item.id}}" class="fas fa-trash fa-2x"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <form id="formEliminar-{{ item.id }}" action="/CarritoCompra/" method="POST" style="display: none;">
+                        {% csrf_token %}
+                        <input type="hidden" name="idCard" value="{{ item.id }}">
+                    </form>
+                    
+                    <div class="card extendida" style="border-radius: 8px; box-shadow: 6px 6px 6px #888888; display: none;" id="extend-{{ item.id }}">
+                        <h5 class="card-header d-flex justify-content-between" style="background-color: #FFA500;">
+                            <span>{{ item.cantidad }} {{ item.producto }}</span>
+                            <span class="text-end">S/{{ item.precio }}</span>
+                          </h5>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {% if not item.categoria_producto.nombre == "Bebidas" %}
+                                    Papas: {{ item.tipo_papas }}<br>
+                                    Ensalada: {{ item.ensalada }}<br>
+                                    Cremas: {{ item.cremas }}<br>
+                                    {% if item.adicionales.all|length > 0 %}
+                                        <strong>Adicionales:</strong><br>
+                                            {% for adicional in item.adicionales.all %}
+                                                <span style="padding-left: 100px;">          &#8226; {{ adicional }} <br></span>
+                                            {% endfor %}
+                                    {% endif %}
+                                    {% if item.opcionales %}
+                                        <br><strong>Observaciones:</strong> {{ item.opcionales }}
+                                    {% endif %}
+                                {% else %}
+                                    <script>
+                                        var opcionales = "{{ item.opcionales }}".split(',');
+                                        for (var i = 0; i < opcionales.length; i++) {
+                                            document.write(opcionales[i] + '<br>');
+                                        }
+                                    </script>
+                                {% endif %}
+                            </p>
+                            <form id="form-{{ item.id }}" action="/FormModifyItems/" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-primary" value="Modificar Pedido">
+                                <input type="hidden" name="idCarditem" value="{{item.id}}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col">
+                    <label class="px-3" style="font-size: 35px;font-weight: bold;margin-bottom: -10px;">TOTAL</label><br>
+                    <label class="px-4" id="Total" style="font-size: 30px;color: #888888;margin-top: -10px;"></label>
+                </div>
+                <br><br>
+                <div class="row pt-5">
+                    <div class="col-6" aria-label="Opciones">
+                      <button type="button" onclick="submitForm('tienda')" class="btn btn-lg w-100" style="background-color: rgb(0, 203, 105); color: white;">
+                        <i class="fas fa-store"></i> Recojo Tienda
+                      </button>
+                    </div>
+                    <div class="col-6" aria-label="Opciones">
+                      <button type="button" onclick="submitForm('domicilio')" class="btn btn-lg w-100" style="background-color: rgb(0, 203, 105); color: white;">
+                        <i class="fas fa-bicycle" style="color: #ffffff;"></i> A Domicilio
+                      </button>
+                    </div>
+                  </div>
+                  <form id="myForm" action="/formPedido/" method="POST" style="display: none">
+                    {% csrf_token %}
+                    <input type="hidden" name="TotalPedido" id="TotalPedido">
+                    <input type="hidden" name="opcion" id="opcion">
+                  </form>
+                  
+
+            {% else %}
+                <h3 class=" mb-0 text-center mx-auto">AUN NO SE AH REALIZADO NINGUN PEDIDO</h3>
+            {% endif %}
+
+        </div>
+
+        
+    </div>
+
+    <script>
+        
+        function redirigir() {
+            window.location.href = "/Menus"; // Reemplaza "/ruta-en-tu-proyecto" con la ruta relativa deseada
+        }
+        function submitForm(opcion) {
+            var labelElement = document.getElementById('Total').textContent;
+            document.getElementById("opcion").value = opcion;
+            document.getElementById("TotalPedido").value = labelElement;
+            console.log(opcion);
+            console.log(opcion);
+            document.getElementById("myForm").submit();
+        }
+
+
+
+        var presiono = true;
+        var displaytachito = "block";
+        function aparecerTachito() {
+            if (presiono) {
+                displaytachito = "block";
+                presiono = false;
+            }else{
+                displaytachito = "none";
+                presiono = true;
+
+            }
+            const tachitos = document.querySelectorAll(".navbar-toggler.tachitos");
+            
+            tachitos.forEach(function(tacho) {
+                document.getElementById(tacho.id).style.display = displaytachito;
+            });
+        };
+        function eliminarCarrito(event) {
+            const idBoton = event.target.id;
+            var rayaBotonId = idBoton.indexOf("-")
+            const idEliminar = idBoton.substring(rayaBotonId+1)
+            const formId = "formEliminar-" + idEliminar;
+            const form = document.getElementById(formId);
+            form.submit();
+            return false;
+        };
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll(".card.pequeña");
+    
+            cards.forEach(function(card) {
+                card.addEventListener("click", function() {
+                    const extenID = "extend-" + card.id;
+                    document.getElementById(card.id).style.display = "none";
+                    document.getElementById(extenID).style.display = "block";
+                });
+            });
+            const cardsextend = document.querySelectorAll(".card.extendida");
+    
+            cardsextend.forEach(function(cardextend) {
+                cardextend.addEventListener("click", function() {
+                    var posRaya = cardextend.id.indexOf("-")
+                    const cardID = cardextend.id.substring(posRaya+1);
+                    document.getElementById(cardID).style.display = "block";
+                    document.getElementById(cardextend.id).style.display = "none";
+                });
+            });
+
+            const precios = document.querySelectorAll(".card-text.precio");
+            var preciototal = 0
+    
+            precios.forEach(function(cardextend) {
+                preciototal = preciototal + parseFloat(cardextend.textContent);
+            });
+            document.getElementById("Total").textContent ="S/"+preciototal.toFixed(2);
+
+            
+
+        });
+    </script>
+
+
+</body>
+
+</html>

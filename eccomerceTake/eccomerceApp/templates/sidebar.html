@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device|-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href='{% static "css/bootstrap.min.css" %}'>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-vBbuYblZNxXzCHXomTnn/Y5SM75Y4rGdaKv2t6Gp6r8cCuSjmZdfD1wIV34aaqdzJxy37S+Xofue2W2zUV5rLw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />-->
+
+</head>
+
+<body>
+    <div class="container-fluid px-2 m-0">
+
+        <nav class="navbar navbar-light fixed-top" style="background-color: #FFA500; color: black;">
+            <div class="container-fluid">                
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <div class="d-flex align-items-center">
+                        <span class="navbar-toggler-icon text-start"></span>
+                        <h3 class="ms-2 mb-0" style="color: #FFA500;">..</h3>
+                        <h3 class="ms-2 mb-0">MENU</h3>
+                    </div>
+                </button>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel" >
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Dropdown
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!--
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-dark fixed-top" style="background-color: #FFA500; color: black;">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                            <span class="navbar-toggler-icon" style="font-size:28px; "></span>
+                            <span class="navbar-text" style="font-size: 30px; color: #FFA500;">..</span>
+                            <span class="navbar-text" style="font-size: 30px; color: white; font-weight: bold; ">MENU</span>
+                        </button>
+                        <div class="offcanvas offcanvas-start " data-bs-scroll="true" tabindex="-1"
+                            id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                            <div class="offcanvas-header">
+                                <h3 class="offcanvas-title" id="offcanvasDarkNavbarLabel">HUDBAY</h3>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="color: black;">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="/reportes">Principal</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Detección en Sensores</a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="#">Apertura/Cierre de Tranqueras</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Ocupacion - Via Mina</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Ocupacion - Via Nacional</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Salud Sensores</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Inicio de Energizado</a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Modo de Trabajo</a>
+                                    </li>
+                                    <br><br>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Salir</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        -->
+    </div>
+    <script type='text/JavaScript' src='{% static "js/jquery-3.7.0.js" %}'></script>
+    <script src='{% static "js/bootstrap.bundle.min.js" %}' crossorigin="anonymous"></script>
+</body>
+
+</html>
